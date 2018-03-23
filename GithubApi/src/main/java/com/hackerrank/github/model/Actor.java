@@ -1,8 +1,27 @@
 package com.hackerrank.github.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "actors")
 public class Actor {
+
+    @Id
     private Long id;
+
+    @Column(name = "login")
     private String login;
+
+    @Column(name = "avatar_url")
     private String avatar;
 
     public Actor() {
@@ -13,28 +32,10 @@ public class Actor {
         this.login = login;
         this.avatar = avatar;
     }
-    
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public String getLogin() {
-        return login;
-    }
-    
-    public void setLogin(String login) {
-        this.login = login;
-    }
-    
-    public String getAvatar() {
-        return avatar;
-    }
-    
+
+    @JsonSetter("avatar_url")
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+    
 }

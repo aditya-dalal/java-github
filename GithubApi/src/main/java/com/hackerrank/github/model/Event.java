@@ -1,12 +1,38 @@
 package com.hackerrank.github.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Getter
+@Setter
+@Entity
+@Table(name = "events")
+@NamedQueries({
+        @NamedQuery(name = "event.findAll", query = "select e from Event e order by e.id"),
+        @NamedQuery(name = "event.findAllByActorOrderByEventId", query = "select e from Event e where e.actor.id = :actorId order by e.id")
+})
 public class Event {
+    @Id
     private Long id;
+
+    @Column(name = "type")
     private String type;
+
+    @OneToOne(targetEntity = Actor.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "actor_id")
     private Actor actor;
+
+    @OneToOne(targetEntity = Repo.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "repo_id")
     private Repo repo;
+
+    @Column(name = "created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private Timestamp createdAt;
 
     public Event() {
@@ -20,42 +46,7 @@ public class Event {
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Actor getActor() {
-        return actor;
-    }
-
-    public void setActor(Actor actor) {
-        this.actor = actor;
-    }
-
-    public Repo getRepo() {
-        return repo;
-    }
-
-    public void setRepo(Repo repo) {
-        this.repo = repo;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
+    @JsonSetter("created_at")
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }

@@ -1,0 +1,22 @@
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost/github
+  user: root
+  password:
+  properties:
+    charSet: UTF-8
+    hibernate.dialect: org.hibernate.dialect.MySQLDialect
+  maxWaitForConnection: 1s
+  validationQuery: SELECT 1
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
+
+server:
+  maxThreads: 30
+  applicationConnectors:
+    - type: http
+      port: 7200
+  adminConnectors:
+    - type: http
+      port: 7201

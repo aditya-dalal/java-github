@@ -1,8 +1,26 @@
 package com.hackerrank.github.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "repos")
 public class Repo {
+
+    @Id
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "url")
     private String url;
 
     public Repo() {
@@ -11,30 +29,6 @@ public class Repo {
     public Repo(Long id, String name, String url) {
         this.id = id;
         this.name = name;
-        this.url = url;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
         this.url = url;
     }
 }
