@@ -14,7 +14,9 @@ import java.sql.Timestamp;
 @Table(name = "events")
 @NamedQueries({
         @NamedQuery(name = "event.findAll", query = "select e from Event e order by e.id"),
-        @NamedQuery(name = "event.findAllByActorOrderByEventId", query = "select e from Event e where e.actor.id = :actorId order by e.id")
+        @NamedQuery(name = "event.findAllByActorOrderByEventId", query = "select e from Event e where e.actor.id = :actorId order by e.id"),
+        @NamedQuery(name = "event.findActorsGroupByTotalEventsOrderByDesc", query = "select e.actor from Event e group by e.actor.id order by count(e.actor.id) desc, max(created_at) desc, e.actor.login"),
+        @NamedQuery(name = "event.findEventsOrderByActorIdCreatedAt", query = "select e from Event e order by e.actor.id, e.createdAt desc")
 })
 public class Event {
     @Id
@@ -50,4 +52,5 @@ public class Event {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+
 }

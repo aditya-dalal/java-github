@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "actors")
+@NamedQueries({
+        @NamedQuery(name = "actor.updateAvatarUrl", query = "update Actor a set a.avatar = :avatarUrl where a.id = :id")
+})
 public class Actor {
 
     @Id
@@ -37,5 +37,5 @@ public class Actor {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-    
+
 }

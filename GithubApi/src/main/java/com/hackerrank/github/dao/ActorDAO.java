@@ -10,4 +10,15 @@ public class ActorDAO extends AbstractDAO<Actor> {
         super(sessionFactory);
     }
 
+    public Actor findById(Long id) {
+        return get(id);
+    }
+
+    public void updateAvatarUrl(Actor actor) {
+        namedQuery("actor.updateAvatarUrl")
+                .setParameter("avatarUrl", actor.getAvatar())
+                .setParameter("id", actor.getId())
+                .executeUpdate();
+    }
+
 }

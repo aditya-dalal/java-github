@@ -3,7 +3,6 @@ package com.hackerrank.github;
 import com.hackerrank.github.config.GithubConfiguration;
 import com.hackerrank.github.controller.ActorController;
 import com.hackerrank.github.controller.EventController;
-import com.hackerrank.github.controller.RepoController;
 import com.hackerrank.github.dao.*;
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
@@ -28,24 +27,10 @@ public class GithubApplication extends Application<GithubConfiguration> {
 
     @Override
     public void run(GithubConfiguration githubConfiguration, Environment environment) throws Exception {
-        registerActorController(environment);
-        registerRepoController(environment);
-        registerEventController(environment);
-    }
-
-    private void registerEventController(Environment environment) {
         final EventDAO eventDAO = new EventDAO(githubBundle.getSessionFactory());
-        environment.jersey().register(new EventController(eventDAO));
-    }
-
-    private void registerRepoController(Environment environment) {
-        final RepoDAO repoDAO = new RepoDAO(githubBundle.getSessionFactory());
-        environment.jersey().register(new RepoController(repoDAO));
-    }
-
-    private void registerActorController(Environment environment) {
         final ActorDAO actorDAO = new ActorDAO(githubBundle.getSessionFactory());
-        environment.jersey().register(new ActorController(actorDAO));
+        environment.jersey().register(new EventController(eventDAO));
+        environment.jersey().register(new ActorController(actorDAO, eventDAO));
     }
 
     public static void main(String[] args) throws Exception{

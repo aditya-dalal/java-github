@@ -1,5 +1,6 @@
 package com.hackerrank.github.dao;
 
+import com.hackerrank.github.model.Actor;
 import com.hackerrank.github.model.Event;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
@@ -33,5 +34,13 @@ public class EventDAO extends AbstractDAO<Event> {
 
     public List<Event> findEventsByActorId(Long actorId) {
         return list(namedQuery("event.findAllByActorOrderByEventId").setParameter("actorId", actorId));
+    }
+
+    public List<Actor> findActorsGroupByTotalEventsOrderByDesc() {
+        return list(namedQuery("event.findActorsGroupByTotalEventsOrderByDesc"));
+    }
+
+    public List<Event> findEventsOrderByActorIdCreatedAt() {
+        return list(namedQuery("event.findEventsOrderByActorIdCreatedAt"));
     }
 }
