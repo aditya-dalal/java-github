@@ -25,11 +25,11 @@ public class Event {
     @Column(name = "type")
     private String type;
 
-    @OneToOne(targetEntity = Actor.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Actor.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "actor_id")
     private Actor actor;
 
-    @OneToOne(targetEntity = Repo.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Repo.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "repo_id")
     private Repo repo;
 
