@@ -40,7 +40,7 @@ public class GithubApplicationTest {
                 {"./testcases/http01.json"},
                 {"./testcases/http02.json"},
                 {"./testcases/http03.json"},
-//                {"./testcases/http04.json"}
+                {"./testcases/http04.json"}
         });
     }
 

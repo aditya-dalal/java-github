@@ -28,8 +28,7 @@ public class EventDAO extends AbstractDAO<Event> {
     }
 
     public void erase() {
-        List<Event> events = findAll();
-        events.forEach((event) -> currentSession().delete(event));
+        namedQuery("event.deleteAll").executeUpdate();
     }
 
     public List<Event> findEventsByActorId(Long actorId) {

@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "events")
 @NamedQueries({
+        @NamedQuery(name = "event.deleteAll", query = "delete from Event"),
         @NamedQuery(name = "event.findAll", query = "select e from Event e order by e.id"),
         @NamedQuery(name = "event.findAllByActorOrderByEventId", query = "select e from Event e where e.actor.id = :actorId order by e.id"),
         @NamedQuery(name = "event.findActorsGroupByTotalEventsOrderByDesc", query = "select e.actor from Event e group by e.actor.id order by count(e.actor.id) desc, max(created_at) desc, e.actor.login"),
@@ -25,11 +26,11 @@ public class Event {
     @Column(name = "type")
     private String type;
 
-    @ManyToOne(targetEntity = Actor.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Actor.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "actor_id")
     private Actor actor;
 
-    @ManyToOne(targetEntity = Repo.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Repo.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "repo_id")
     private Repo repo;
 

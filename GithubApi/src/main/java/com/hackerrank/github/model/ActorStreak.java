@@ -18,15 +18,15 @@ public class ActorStreak implements Comparable<ActorStreak> {
     @Override
     public int compareTo(ActorStreak actorStreak) {
         if(this.maxStreak > actorStreak.maxStreak)
-            return 1;
-        else if(this.maxStreak < actorStreak.maxStreak)
             return -1;
+        else if(this.maxStreak < actorStreak.maxStreak)
+            return 1;
         LocalDateTime d1 = this.createdAt.toLocalDateTime();
         LocalDateTime d2 = actorStreak.getCreatedAt().toLocalDateTime();
         if(d1.isAfter(d2))
-            return 1;
-        else if(d1.isBefore(d2))
             return -1;
+        else if(d1.isBefore(d2))
+            return 1;
         return this.actor.getLogin().compareTo(actorStreak.getActor().getLogin());
     }
 }
