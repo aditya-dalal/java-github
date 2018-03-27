@@ -1,16 +1,9 @@
 database:
-  driverClass: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost/github
-  user: root
-  password:
+  driverClass: org.h2.Driver
+  url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
   properties:
-    charSet: UTF-8
-    hibernate.dialect: org.hibernate.dialect.MySQLDialect
-  maxWaitForConnection: 1s
-  validationQuery: SELECT 1
-  minSize: 8
-  maxSize: 32
-  checkConnectionWhileIdle: false
+    hibernate.dialect: org.hibernate.dialect.H2Dialect
+    hibernate.hbm2ddl.auto: create
 
 server:
   maxThreads: 30
