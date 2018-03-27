@@ -1,6 +1,7 @@
 package com.hackerrank.github.controller;
 
-import com.hackerrank.github.dao.EventDAO;
+import com.google.inject.Inject;
+import com.hackerrank.github.dao.EventRepository;
 import com.hackerrank.github.model.Event;
 import io.dropwizard.hibernate.UnitOfWork;
 
@@ -12,10 +13,11 @@ import java.util.List;
 @Path("/")
 public class EventController {
 
-    private EventDAO eventDAO;
+    private EventRepository eventRepository;
 
-    public EventController(EventDAO repository) {
-        this.eventDAO = repository;
+    @Inject
+    public EventController(EventRepository repository) {
+        this.eventRepository = repository;
     }
 
     @DELETE
@@ -23,7 +25,7 @@ public class EventController {
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
     public Response eraseAllEvents() {
-        eventDAO.erase();
+        eventRepository.erase();
         return Response.ok().build();
     }
 
@@ -33,7 +35,7 @@ public class EventController {
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
     public List<Event> getAllEvents() {
-        return eventDAO.findAll();
+        return eventRepository.findAll();
     }
 
     @POST
@@ -42,7 +44,7 @@ public class EventController {
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
     public Response createEvent(Event event) {
-        Long eventId = eventDAO.create(event);
+        Long eventId = eventRepository.create(event);
         if(eventId == null)
             return Response.status(400).build();
         return Response.status(201).build();
@@ -54,7 +56,7 @@ public class EventController {
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
     public Response getEventsForActor(@PathParam("actorID") Long actorId) {
-        List<Event> events = eventDAO.findEventsByActorId(actorId);
+        List<Event> events = eventRepository.findEventsByActorId(actorId);
         if(events == null || events.isEmpty())
             return Response.status(404).build();
         return Response.ok().entity(events).build();

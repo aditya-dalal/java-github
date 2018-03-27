@@ -11,7 +11,7 @@ public class GithubConfiguration extends Configuration {
 
     @Valid
     @NotNull
-    private DataSourceFactory database = new DataSourceFactory();
+    private DataSourceFactory database;
 
     @JsonProperty("database")
     public DataSourceFactory getDatabase() {

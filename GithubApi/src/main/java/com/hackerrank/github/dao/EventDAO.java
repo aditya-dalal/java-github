@@ -1,5 +1,6 @@
 package com.hackerrank.github.dao;
 
+import com.google.inject.Inject;
 import com.hackerrank.github.model.Actor;
 import com.hackerrank.github.model.Event;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -7,8 +8,9 @@ import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class EventDAO extends AbstractDAO<Event> {
+public class EventDAO extends AbstractDAO<Event> implements EventRepository {
 
+    @Inject
     public EventDAO(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

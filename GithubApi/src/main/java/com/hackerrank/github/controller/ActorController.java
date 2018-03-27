@@ -1,7 +1,8 @@
 package com.hackerrank.github.controller;
 
-import com.hackerrank.github.dao.ActorDAO;
-import com.hackerrank.github.dao.EventDAO;
+import com.google.inject.Inject;
+import com.hackerrank.github.dao.ActorRepository;
+import com.hackerrank.github.dao.EventRepository;
 import com.hackerrank.github.model.Actor;
 import com.hackerrank.github.model.ActorStreak;
 import com.hackerrank.github.model.Event;
@@ -18,12 +19,13 @@ import java.util.stream.Collectors;
 @Path("/")
 public class ActorController {
 
-    private ActorDAO actorDAO;
-    private EventDAO eventDAO;
+    private ActorRepository actorRepository;
+    private EventRepository eventRepository;
 
-    public ActorController(ActorDAO actorDAO, EventDAO eventDAO) {
-        this.actorDAO = actorDAO;
-        this.eventDAO = eventDAO;
+    @Inject
+    public ActorController(ActorRepository actorRepository, EventRepository eventRepository) {
+        this.actorRepository = actorRepository;
+        this.eventRepository = eventRepository;
     }
 
     @PUT
@@ -32,12 +34,12 @@ public class ActorController {
     @Path("/actors")
     @UnitOfWork
     public Response updateAvatarUrl(Actor actor) {
-        Actor dbActor = actorDAO.findById(actor.getId());
+        Actor dbActor = actorRepository.findById(actor.getId());
         if(dbActor == null)
             return Response.status(404).build();
         else if(!dbActor.getLogin().equals(actor.getLogin()))
             return Response.status(400).build();
-        actorDAO.updateAvatarUrl(actor);
+        actorRepository.updateAvatarUrl(actor);
         return Response.ok().build();
     }
 
@@ -47,7 +49,7 @@ public class ActorController {
     @Path("/actors")
     @UnitOfWork
     public List<Actor> getAllActors() {
-        return eventDAO.findActorsGroupByTotalEventsOrderByDesc();
+        return eventRepository.findActorsGroupByTotalEventsOrderByDesc();
     }
 
     @GET
@@ -56,7 +58,7 @@ public class ActorController {
     @Path("/actors/streak")
     @UnitOfWork
     public List<Actor> getActorsStreak() {
-        List<Event> events = eventDAO.findEventsOrderByActorIdCreatedAt();
+        List<Event> events = eventRepository.findEventsOrderByActorIdCreatedAt();
         return getActorsByMaximumStreak(events);
     }
 
