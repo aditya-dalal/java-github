@@ -1,8 +1,9 @@
 package com.hackerrank.github.controller;
 
 import com.google.inject.Inject;
-import com.hackerrank.github.dao.EventRepository;
+import com.hackerrank.github.exception.InvalidRequestException;
 import com.hackerrank.github.model.Event;
+import com.hackerrank.github.service.EventService;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.ws.rs.*;
@@ -13,11 +14,11 @@ import java.util.List;
 @Path("/")
 public class EventController {
 
-    private EventRepository eventRepository;
+    private EventService eventService;
 
     @Inject
-    public EventController(EventRepository repository) {
-        this.eventRepository = repository;
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
     }
 
     @DELETE
@@ -25,7 +26,7 @@ public class EventController {
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
     public Response eraseAllEvents() {
-        eventRepository.erase();
+        eventService.eraseAllEvents();
         return Response.ok().build();
     }
 
@@ -35,7 +36,7 @@ public class EventController {
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
     public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+        return eventService.getAllEvents();
     }
 
     @POST
@@ -44,9 +45,11 @@ public class EventController {
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
     public Response createEvent(Event event) {
-        Long eventId = eventRepository.create(event);
-        if(eventId == null)
-            return Response.status(400).build();
+        try {
+            eventService.createEvent(event);
+        } catch (InvalidRequestException e) {
+            return Response.status(e.getStatus()).build();
+        }
         return Response.status(201).build();
     }
 
@@ -56,9 +59,12 @@ public class EventController {
     @Produces(MediaType.APPLICATION_JSON)
     @UnitOfWork
     public Response getEventsForActor(@PathParam("actorID") Long actorId) {
-        List<Event> events = eventRepository.findEventsByActorId(actorId);
-        if(events == null || events.isEmpty())
-            return Response.status(404).build();
+        List<Event> events = null;
+        try {
+            events = eventService.getEventsForActor(actorId);
+        } catch (InvalidRequestException e) {
+            return Response.status(e.getStatus()).build();
+        }
         return Response.ok().entity(events).build();
     }
 }

@@ -7,6 +7,10 @@ import com.hackerrank.github.dao.ActorDAO;
 import com.hackerrank.github.dao.ActorRepository;
 import com.hackerrank.github.dao.EventDAO;
 import com.hackerrank.github.dao.EventRepository;
+import com.hackerrank.github.service.ActorService;
+import com.hackerrank.github.service.ActorServiceImpl;
+import com.hackerrank.github.service.EventService;
+import com.hackerrank.github.service.EventServiceImpl;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.ScanningHibernateBundle;
@@ -30,6 +34,8 @@ public class GithubModule extends AbstractModule {
     protected void configure() {
         bind(ActorRepository.class).to(ActorDAO.class);
         bind(EventRepository.class).to(EventDAO.class);
+        bind(ActorService.class).to(ActorServiceImpl.class);
+        bind(EventService.class).to(EventServiceImpl.class);
     }
 
     @Provides
