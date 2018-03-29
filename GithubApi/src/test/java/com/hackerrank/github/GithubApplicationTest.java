@@ -3,11 +3,13 @@ package com.hackerrank.github;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hackerrank.github.config.GithubConfiguration;
+import com.hackerrank.github.groups.IntegrationTest;
 import com.hackerrank.github.models.*;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -23,6 +25,7 @@ import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 
+@Category(IntegrationTest.class)
 @RunWith(Parameterized.class)
 public class GithubApplicationTest {
 
