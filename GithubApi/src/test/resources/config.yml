@@ -4,6 +4,7 @@ database:
   properties:
     hibernate.dialect: org.hibernate.dialect.H2Dialect
     hibernate.hbm2ddl.auto: create
+    hibernate.session.events.log: false
 
 server:
   maxThreads: 30
